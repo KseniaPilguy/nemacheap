@@ -1,10 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-const IMAGES_BASE_PATH = "https://image.tmdb.org/t/p/w500/"
+import data from './data.json'
 
-export default function handler(
+const IMAGES_BASE_PATH = "https://image.tmdb.org/t/p/w500"
+
+export default function moviesApi(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    res.status(200).json({ status: 'OK' })
+    const mappedData = data.results.map(movie => ({...movie, poster_path: `${IMAGES_BASE_PATH}${movie.poster_path}`}))
+    res.status(200).json(mappedData)
 }
